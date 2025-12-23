@@ -12,6 +12,8 @@ export default function App() {
     const [isAnimating, setIsAnimating] = useState(false)
     // 控制返回按钮何时可见（只在层完成偏移后才出现）
     const [canGoBack, setCanGoBack] = useState(false)
+    // 当前处于聚焦状态的 layer（1/2/3），null 表示仍是三个 layer 共存的二级画面
+    const [selectedLayer, setSelectedLayer] = useState<number | null>(null)
 
     useEffect(() => {
         if (!titleRef.current) return
@@ -31,15 +33,20 @@ export default function App() {
     }, [])
 
     const handleSeasonClick = (season: string) => {
+        // 如果已经在动画中或已有选中的季节，直接返回
         if (isAnimating || selectedSeason) return
-        setIsAnimating(true)
-        setSelectedSeason(season)
-        setCanGoBack(false)
 
         const clickedStack = seasonRefs.current[season]
         const otherSeasons = SEASONS.filter((s) => s !== season)
 
+        // 先检查必要的元素是否存在，避免状态不一致
         if (!clickedStack || !sectionRef.current) return
+
+        // 确认可以执行后再设置状态
+        setIsAnimating(true)
+        setSelectedSeason(season)
+        setSelectedLayer(null)
+        setCanGoBack(false)
 
         const topLayer = clickedStack.querySelector<HTMLDivElement>('.l1')
         const bottomLayer = clickedStack.querySelector<HTMLDivElement>('.l3')
@@ -61,7 +68,7 @@ export default function App() {
 
         // 先让整个 stack 放大到中心，然后再展开 l1 / l3
         const tl = gsap.timeline({
-            defaults: { duration: 0.8, ease: 'power2.inOut' },
+            defaults: { duration: 1.0, ease: 'power2.inOut' },
             onComplete: () => {
                 setIsAnimating(false)
                 setCanGoBack(true) // 展开完成后才允许返回 & 显示按钮
@@ -103,7 +110,7 @@ export default function App() {
                 gsap.to(otherStack, {
                     y: -window.innerHeight,
                     opacity: 0,
-                    duration: 0.8,
+                    duration: 1.0,
                     ease: 'power2.inOut',
                     delay: index * 0.1,
                 })
@@ -114,20 +121,68 @@ export default function App() {
     const handleBackClick = () => {
         // 只有在展开完成且当前没有其他动画时才能返回
         if (isAnimating || !selectedSeason || !canGoBack) return
-        setIsAnimating(true)
-        setCanGoBack(false)
 
         const selectedStack = seasonRefs.current[selectedSeason]
-        const otherSeasons = SEASONS.filter((s) => s !== selectedSeason)
-
         if (!selectedStack) return
 
         const topLayer = selectedStack.querySelector<HTMLDivElement>('.l1')
         const bottomLayer = selectedStack.querySelector<HTMLDivElement>('.l3')
 
-        // 先让 l1 / l3 回位，再让整个 stack 回到原来的位置
+        // 如果当前在三级画面（单个 layer 被选中），先回到二级画面：恢复该 layer 的 scale，其它 layer 重新出现
+        if (selectedLayer !== null) {
+            setIsAnimating(true)
+
+            const focused = selectedStack.querySelector<HTMLDivElement>(
+                `.l${selectedLayer}`
+            )
+            const l1 = selectedStack.querySelector<HTMLDivElement>('.l1')
+            const l2 = selectedStack.querySelector<HTMLDivElement>('.l2')
+            const l3 = selectedStack.querySelector<HTMLDivElement>('.l3')
+
+            if (!focused || !l1 || !l2 || !l3) return
+
+            const tl = gsap.timeline({
+                defaults: { duration: 0.8, ease: 'power2.inOut' },
+                onComplete: () => {
+                    setSelectedLayer(null)
+                    setIsAnimating(false)
+                },
+            })
+
+            // 恢复被选中的 layer 的 zIndex 为其原始层级
+            const originalZ =
+                focused.classList.contains('l1') ? 3 : focused.classList.contains('l2') ? 2 : 1
+
+            tl.to(
+                focused,
+                {
+                    scale: 1,
+                    zIndex: originalZ,
+                },
+                0
+            )
+
+            // 所有layer恢复可见和可交互
+            tl.to(
+                [l1, l2, l3],
+                {
+                    opacity: 1,
+                    pointerEvents: 'auto',
+                },
+                0
+            )
+
+            return
+        }
+
+        // 否则当前在二级画面，执行原有逻辑：合拢 layer，然后整个 stack 回到初始位置
+        setIsAnimating(true)
+        setCanGoBack(false)
+
+        const otherSeasons = SEASONS.filter((s) => s !== selectedSeason)
+
         const tl = gsap.timeline({
-            defaults: { duration: 0.8, ease: 'power2.inOut' },
+            defaults: { duration: 1.0, ease: 'power2.inOut' },
             onComplete: () => {
                 // 清理层上的 xPercent 偏移，完全回到 CSS 初始状态
                 if (topLayer) gsap.set(topLayer, { clearProps: 'xPercent' })
@@ -175,12 +230,84 @@ export default function App() {
                 gsap.to(otherStack, {
                     y: 0,
                     opacity: 1,
-                    duration: 0.8,
+                    duration: 1.0,
                     ease: 'power2.inOut',
                     delay: index * 0.1,
                 })
             }
         })
+    }
+
+    // ===== Layer hover：在放大后的视图里，悬浮单层轻微放大 =====
+    const handleLayerHover = (season: string, layerIndex: number, isEnter: boolean) => {
+        // 只有当前被放大的 season-stack，且整体动画已完成时才响应 hover
+        if (!selectedSeason || season !== selectedSeason) return
+        if (!canGoBack || isAnimating) return
+        // 如果已经进入单 layer 视图，就不再做 hover 放大，避免干扰
+        if (selectedLayer !== null) return
+
+        const stack = seasonRefs.current[season]
+        if (!stack) return
+
+        const layer = stack.querySelector<HTMLDivElement>(`.l${layerIndex}`)
+        if (!layer) return
+
+        gsap.to(layer, {
+            scale: isEnter ? 1.15 : 1,
+            duration: 0.6,
+            ease: 'power2.out',
+        })
+    }
+
+    // ===== Layer click：从二级画面进入三级画面 =====
+    const handleLayerClick = (season: string, layerIndex: number) => {
+        // 只在当前被放大的 season-stack，且动画完成的二级画面中响应点击
+        if (!selectedSeason || season !== selectedSeason) return
+        if (!canGoBack || isAnimating) return
+        if (selectedLayer !== null) return
+
+        const stack = seasonRefs.current[season]
+        if (!stack) return
+
+        const clickedLayer = stack.querySelector<HTMLDivElement>(`.l${layerIndex}`)
+        if (!clickedLayer) return
+
+        const otherLayers = [1, 2, 3]
+            .filter((i) => i !== layerIndex)
+            .map((i) => stack.querySelector<HTMLDivElement>(`.l${i}`))
+            .filter((el): el is HTMLDivElement => !!el)
+
+        setIsAnimating(true)
+
+        const tl = gsap.timeline({
+            defaults: { duration: 1.0, ease: 'power2.inOut' },
+            onComplete: () => {
+                setIsAnimating(false)
+                setSelectedLayer(layerIndex)
+            },
+        })
+
+        // 点击的 layer 放大到 2 倍（只保留缩放，不移动位置）
+        tl.to(
+            clickedLayer,
+            {
+                scale: 2,
+                zIndex: 20,
+            },
+            0
+        )
+
+        // 其他两层淡出并禁用交互
+        if (otherLayers.length) {
+            tl.to(
+                otherLayers,
+                {
+                    opacity: 0,
+                    pointerEvents: 'none',
+                },
+                0
+            )
+        }
     }
 
     return (
@@ -216,9 +343,71 @@ export default function App() {
                             onClick={() => handleSeasonClick(season)}
                         >
                             <div className="layers">
-                                <div className="layer l1" />
-                                <div className="layer l2" />
-                                <div className="layer l3" />
+                                <div
+                                    className="layer l1"
+                                    onMouseEnter={(e) => {
+                                        // 只在已选中该季节时才阻止冒泡
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerHover(season, 1, true)
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerHover(season, 1, false)
+                                    }}
+                                    onClick={(e) => {
+                                        // 只在已选中该季节时才阻止冒泡，让初始界面的点击能冒泡到父级
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerClick(season, 1)
+                                    }}
+                                />
+                                <div
+                                    className="layer l2"
+                                    onMouseEnter={(e) => {
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerHover(season, 2, true)
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerHover(season, 2, false)
+                                    }}
+                                    onClick={(e) => {
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerClick(season, 2)
+                                    }}
+                                />
+                                <div
+                                    className="layer l3"
+                                    onMouseEnter={(e) => {
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerHover(season, 3, true)
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerHover(season, 3, false)
+                                    }}
+                                    onClick={(e) => {
+                                        if (selectedSeason === season) {
+                                            e.stopPropagation()
+                                        }
+                                        handleLayerClick(season, 3)
+                                    }}
+                                />
                             </div>
                             <div className="season-name">{season}</div>
                         </div>

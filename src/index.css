@@ -89,7 +89,7 @@ html, body, #root {
   height: 100%;
   border: 1.5px solid #2a4cff;
   background: url('/textures/default_white.png') center center / cover no-repeat;
-  pointer-events: none; /* ⭐保证 hover 一定落在父级 */
+  pointer-events: auto; /* 需要在单个 layer 上做 hover 交互 */
 }
 
 .l1 {
