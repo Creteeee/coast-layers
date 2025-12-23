@@ -1,0 +1,111 @@
+/* ===== Reset ===== */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+/* ===== Page ===== */
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ===== Header ===== */
+.header {
+  padding: 60px 80px 40px;
+}
+
+.header-title {
+  font-size: 48px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  border-bottom: 2px solid white;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.header-sub {
+  margin-top: 16px;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+/* ===== White Board ===== */
+.section {
+  margin: 40px 60px;
+  background: white;
+  padding: 80px 60px;
+}
+
+.season-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== Season Stack ===== */
+.season-stack {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.season-stack:hover {
+  transform: scale(1.15);
+  z-index: 2;
+}
+
+/* ===== Layers ===== */
+.layers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+  transform: rotateX(60deg) rotateZ(45deg);
+}
+
+/* ===== Individual Layer ===== */
+.layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid #2a4cff;
+  background: transparent;
+  pointer-events: none; /* ⭐保证 hover 一定落在父级 */
+}
+
+.l1 {
+  transform: translate(0px, 0px);
+}
+
+.l2 {
+  transform: translate(12px, 12px);
+}
+
+.l3 {
+  transform: translate(24px, 24px);
+}
+
+/* ===== Season Label ===== */
+.season-name {
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  transform: rotate(-45deg);
+  transform-origin: left top;
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  color: #2a4cff;
+  text-transform: uppercase;
+  pointer-events: none;
+}
