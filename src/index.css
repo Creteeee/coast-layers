@@ -48,7 +48,7 @@ html, body, #root {
   position: relative;
   margin: 40px 60px;
   background: white;
-  padding: 120px 60px;
+  padding: 200px 60px;
   overflow: hidden; /* 移动的 season-stack 超出白板时裁剪 */
 }
 

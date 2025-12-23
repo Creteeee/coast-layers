@@ -10,6 +10,8 @@ export default function App() {
     const sectionRef = useRef<HTMLElement>(null)
     const [selectedSeason, setSelectedSeason] = useState<string | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
+    // 控制返回按钮何时可见（只在层完成偏移后才出现）
+    const [canGoBack, setCanGoBack] = useState(false)
 
     useEffect(() => {
         if (!titleRef.current) return
@@ -32,11 +34,15 @@ export default function App() {
         if (isAnimating || selectedSeason) return
         setIsAnimating(true)
         setSelectedSeason(season)
+        setCanGoBack(false)
 
         const clickedStack = seasonRefs.current[season]
-        const otherSeasons = SEASONS.filter(s => s !== season)
+        const otherSeasons = SEASONS.filter((s) => s !== season)
 
         if (!clickedStack || !sectionRef.current) return
+
+        const topLayer = clickedStack.querySelector<HTMLDivElement>('.l1')
+        const bottomLayer = clickedStack.querySelector<HTMLDivElement>('.l3')
 
         // 获取section的边界框
         const sectionRect = sectionRef.current.getBoundingClientRect()
@@ -53,17 +59,44 @@ export default function App() {
         const deltaX = sectionCenterX - initialX
         const deltaY = sectionCenterY - initialY
 
-        // 放大并移动到画面中央
-        gsap.to(clickedStack, {
+        // 先让整个 stack 放大到中心，然后再展开 l1 / l3
+        const tl = gsap.timeline({
+            defaults: { duration: 0.8, ease: 'power2.inOut' },
+            onComplete: () => {
+                setIsAnimating(false)
+                setCanGoBack(true) // 展开完成后才允许返回 & 显示按钮
+            },
+        })
+
+        tl.to(clickedStack, {
             x: deltaX,
             y: deltaY,
             scale: 2,
-            duration: 0.8,
-            ease: 'power2.inOut',
             zIndex: 10,
         })
 
-        // 其他stack向上移走
+        // 第二段：层展开（l1 左移，l3 右移）——使用 xPercent，偏移相对于自身宽度
+        tl.addLabel('spread')
+        if (topLayer) {
+            tl.to(
+                topLayer,
+                {
+                    xPercent: -40,
+                },
+                'spread'
+            )
+        }
+        if (bottomLayer) {
+            tl.to(
+                bottomLayer,
+                {
+                    xPercent: 40,
+                },
+                'spread'
+            )
+        }
+
+        // 其他 stack 向上移走
         otherSeasons.forEach((otherSeason, index) => {
             const otherStack = seasonRefs.current[otherSeason]
             if (otherStack) {
@@ -76,28 +109,60 @@ export default function App() {
                 })
             }
         })
-
-        setTimeout(() => {
-            setIsAnimating(false)
-        }, 800)
     }
 
     const handleBackClick = () => {
-        if (isAnimating || !selectedSeason) return
+        // 只有在展开完成且当前没有其他动画时才能返回
+        if (isAnimating || !selectedSeason || !canGoBack) return
         setIsAnimating(true)
+        setCanGoBack(false)
 
         const selectedStack = seasonRefs.current[selectedSeason]
-        const otherSeasons = SEASONS.filter(s => s !== selectedSeason)
+        const otherSeasons = SEASONS.filter((s) => s !== selectedSeason)
 
         if (!selectedStack) return
 
-        // 当前stack缩小并回归原位
-        gsap.to(selectedStack, {
+        const topLayer = selectedStack.querySelector<HTMLDivElement>('.l1')
+        const bottomLayer = selectedStack.querySelector<HTMLDivElement>('.l3')
+
+        // 先让 l1 / l3 回位，再让整个 stack 回到原来的位置
+        const tl = gsap.timeline({
+            defaults: { duration: 0.8, ease: 'power2.inOut' },
+            onComplete: () => {
+                // 清理层上的 xPercent 偏移，完全回到 CSS 初始状态
+                if (topLayer) gsap.set(topLayer, { clearProps: 'xPercent' })
+                if (bottomLayer) gsap.set(bottomLayer, { clearProps: 'xPercent' })
+
+                setSelectedSeason(null)
+                setIsAnimating(false)
+            },
+        })
+
+        // 第一步：l1 / l3 收回（反向还原 xPercent）
+        if (topLayer) {
+            tl.to(
+                topLayer,
+                {
+                    xPercent: 0,
+                },
+                0
+            )
+        }
+        if (bottomLayer) {
+            tl.to(
+                bottomLayer,
+                {
+                    xPercent: 0,
+                },
+                0
+            )
+        }
+
+        // 第二步：整个 stack 回到原位
+        tl.to(selectedStack, {
             x: 0,
             y: 0,
             scale: 1,
-            duration: 0.8,
-            ease: 'power2.inOut',
             zIndex: 1,
         })
 
@@ -116,11 +181,6 @@ export default function App() {
                 })
             }
         })
-
-        setTimeout(() => {
-            setSelectedSeason(null)
-            setIsAnimating(false)
-        }, 800)
     }
 
     return (
@@ -138,7 +198,7 @@ export default function App() {
 
             {/* ===== White Section ===== */}
             <section className="section" ref={sectionRef}>
-                {selectedSeason && (
+                {selectedSeason && canGoBack && (
                     <button 
                         className="back-button"
                         aria-label="Back"
