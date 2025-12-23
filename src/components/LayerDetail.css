@@ -1,0 +1,174 @@
+/* ===== Layer Detail Overlay (四级界面) ===== */
+.layer-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* ===== Exit Button (右上角) ===== */
+.layer-detail-exit {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+  z-index: 1001;
+}
+
+.layer-detail-exit:hover {
+  opacity: 0.7;
+}
+
+.exit-icon {
+  font-size: 24px;
+  line-height: 1;
+  transform: rotate(-45deg);
+}
+
+/* ===== Header (左上方) ===== */
+.layer-detail-header {
+  position: absolute;
+  top: 60px;
+  left: 80px;
+  z-index: 1001;
+}
+
+.layer-detail-title {
+  font-size: 48px;
+  font-weight: normal;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: white;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid white;
+  display: inline-block;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.layer-detail-subtitle {
+  margin-top: 16px;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: white;
+  line-height: 1.6;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.subtitle-line {
+  padding-bottom: 4px;
+  border-bottom: 1px solid white;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+/* ===== Content Area (中央) ===== */
+.layer-detail-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 200px 80px 80px;
+}
+
+/* ===== Texture Container (包含texture和overlay文字) ===== */
+.layer-detail-texture-container {
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  height: 100%;
+  margin: 0 auto 40px; /* 左右居中 */
+  overflow: hidden; /* 裁剪超出容器的文字 */
+  border-radius: 4px;
+}
+
+/* ===== Texture Image ===== */
+.layer-detail-texture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  overflow: hidden;
+  /* background-image 通过内联style设置，这里只设置基础样式 */
+}
+
+/* ===== Description Text ===== */
+.layer-detail-description {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  line-height: 1.8;
+  font-family: Helvetica, Arial, sans-serif;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none; /* 不阻挡texture的交互 */
+  z-index: 10; /* 确保在texture上方 */
+}
+
+.description-line {
+  margin-bottom: 12px;
+  padding-left: 0;
+  white-space: pre-wrap;
+}
+
+/* 缩进的行（以 - 开头） */
+.description-line:has-text("-") {
+  padding-left: 24px;
+}
+
+/* ===== Flood Animation ===== */
+.flood-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+
+.flood-animation .description-line {
+  position: relative;
+  will-change: transform, opacity;
+  margin-bottom: 0;
+  padding: 4px 0;
+  white-space: pre-wrap;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 增加文字可读性 */
+}
+
+.flood-animation .description-line-empty {
+  height: 1.8em; /* 空行高度，与line-height一致 */
+  margin: 0;
+  padding: 0;
+}
+

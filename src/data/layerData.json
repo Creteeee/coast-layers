@@ -1,0 +1,13 @@
+[
+  {
+    "season": "spring",
+    "layerIndex": 1,
+    "name": "SiltyMud",
+    "introduction": "The first layer is the mineral framework",
+    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
+    "animationType": "flood",
+    "color": "#8B7355",
+    "texture": "silty_mud"
+  }
+]
+

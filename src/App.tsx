@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import LayerDetail from './components/LayerDetail'
 import './index.css'
 
 const SEASONS = ['SPRING', 'SUMMER', 'AUTUMN', 'WINTER']
@@ -14,6 +15,8 @@ export default function App() {
     const [canGoBack, setCanGoBack] = useState(false)
     // 当前处于聚焦状态的 layer（1/2/3），null 表示仍是三个 layer 共存的二级画面
     const [selectedLayer, setSelectedLayer] = useState<number | null>(null)
+    // 是否显示四级界面（layer详情）
+    const [showLayerDetail, setShowLayerDetail] = useState(false)
 
     useEffect(() => {
         if (!titleRef.current) return
@@ -259,8 +262,14 @@ export default function App() {
         })
     }
 
-    // ===== Layer click：从二级画面进入三级画面 =====
+    // ===== Layer click：从二级画面进入三级画面，或从三级画面进入四级画面 =====
     const handleLayerClick = (season: string, layerIndex: number) => {
+        // 如果已经在三级画面，且点击的是当前选中的layer，则进入四级界面
+        if (selectedLayer === layerIndex && selectedSeason === season) {
+            setShowLayerDetail(true)
+            return
+        }
+
         // 只在当前被放大的 season-stack，且动画完成的二级画面中响应点击
         if (!selectedSeason || season !== selectedSeason) return
         if (!canGoBack || isAnimating) return
@@ -308,6 +317,11 @@ export default function App() {
                 0
             )
         }
+    }
+
+    // 关闭四级界面
+    const handleCloseLayerDetail = () => {
+        setShowLayerDetail(false)
     }
 
     return (
@@ -409,11 +423,20 @@ export default function App() {
                                     }}
                                 />
                             </div>
-                            <div className="season-name">{season}</div>
+                            <div className="season-name">{season}                            </div>
                         </div>
                     ))}
                 </div>
             </section>
+
+            {/* ===== Layer Detail (四级界面) ===== */}
+            {showLayerDetail && selectedSeason && selectedLayer !== null && (
+                <LayerDetail
+                    season={selectedSeason.toLowerCase() as 'spring' | 'summer' | 'autumn' | 'winter'}
+                    layerIndex={selectedLayer as 1 | 2 | 3}
+                    onClose={handleCloseLayerDetail}
+                />
+            )}
         </div>
     )
 }
