@@ -4,7 +4,13 @@ html, body, #root {
   padding: 0;
   width: 100%;
   height: 100%;
-  background: black;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/textures/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: white;
   font-family: Helvetica, Arial, sans-serif;
 }
@@ -99,9 +105,9 @@ html, body, #root {
 /* ===== Season Label ===== */
 .season-name {
   position: absolute;
-  bottom: -10px;
+  bottom: 50px;
   left: -10px;
-  transform: rotate(-45deg);
+  transform: rotate(30deg);
   transform-origin: left top;
   font-size: 14px;
   letter-spacing: 0.25em;
