@@ -107,6 +107,23 @@ html, body, #root {
   z-index: 1; /* 底层 */
 }
 
+/* ===== Layer textures by season ===== */
+.season-spring .l1 { background-image: url('/textures/p_spring_l1.png'), url('/textures/default_white.png'); }
+.season-spring .l2 { background-image: url('/textures/p_spring_l2.png'), url('/textures/default_white.png'); }
+.season-spring .l3 { background-image: url('/textures/p_spring_l3.png'), url('/textures/default_white.png'); }
+
+.season-summer .l1 { background-image: url('/textures/p_summer_l1.png'), url('/textures/default_white.png'); }
+.season-summer .l2 { background-image: url('/textures/p_summer_l2.png'), url('/textures/default_white.png'); }
+.season-summer .l3 { background-image: url('/textures/p_summer_l3.png'), url('/textures/default_white.png'); }
+
+.season-autumn .l1 { background-image: url('/textures/p_autumn_l1.png'), url('/textures/default_white.png'); }
+.season-autumn .l2 { background-image: url('/textures/p_autumn_l2.png'), url('/textures/default_white.png'); }
+.season-autumn .l3 { background-image: url('/textures/p_autumn_l3.png'), url('/textures/default_white.png'); }
+
+.season-winter .l1 { background-image: url('/textures/p_winter_l1.png'), url('/textures/default_white.png'); }
+.season-winter .l2 { background-image: url('/textures/p_winter_l2.png'), url('/textures/default_white.png'); }
+.season-winter .l3 { background-image: url('/textures/p_winter_l3.png'), url('/textures/default_white.png'); }
+
 /* ===== Season Label ===== */
 .season-name {
   position: absolute;
