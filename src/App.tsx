@@ -57,7 +57,7 @@ export default function App() {
         gsap.to(clickedStack, {
             x: deltaX,
             y: deltaY,
-            scale: 2.5,
+            scale: 2,
             duration: 0.8,
             ease: 'power2.inOut',
             zIndex: 10,
