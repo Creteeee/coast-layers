@@ -23,7 +23,7 @@
   border: none;
   color: white;
   cursor: pointer;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'LetterGothicStd', Helvetica, Arial, sans-serif;
   font-size: 14px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -59,7 +59,7 @@
   padding-bottom: 8px;
   border-bottom: 2px solid white;
   display: inline-block;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'LetterGothicStd', Helvetica, Arial, sans-serif;
 }
 
 .layer-detail-subtitle {
@@ -69,7 +69,7 @@
   text-transform: uppercase;
   color: white;
   line-height: 1.6;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'LetterGothicStd', Helvetica, Arial, sans-serif;
 }
 
 .subtitle-line {
@@ -92,7 +92,6 @@
   justify-content: center;
   padding: 200px 80px 80px;
 }
-
 /* ===== Texture Container (包含texture和overlay文字) ===== */
 .layer-detail-texture-container {
   position: relative;
@@ -127,7 +126,7 @@
   color: rgba(255, 255, 255, 0.9);
   font-size: 16px;
   line-height: 1.8;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'LetterGothicStd', Helvetica, Arial, sans-serif;
   padding: 40px;
   display: flex;
   flex-direction: column;

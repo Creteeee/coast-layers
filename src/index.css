@@ -1,3 +1,13 @@
+
+/* ===== 字体声明 ===== */
+@font-face {
+  font-family: 'LetterGothicStd';
+  src: url('/fonts/LetterGothicStd-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== Reset ===== */
 html, body, #root {
   margin: 0;
@@ -12,7 +22,7 @@ html, body, #root {
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: white;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'LetterGothicStd', Helvetica, Arial, sans-serif;
 }
 
 /* ===== Page ===== */
@@ -27,20 +37,20 @@ html, body, #root {
 }
 
 .header-title {
-  font-size: 48px;
-  letter-spacing: 0.25em;
+  font-size: 60px;
+  letter-spacing: 0 em;
   text-transform: uppercase;
   border-bottom: 2px solid white;
   display: inline-block;
-  padding-bottom: 8px;
+
 }
 
 .header-sub {
   margin-top: 16px;
-  font-size: 14px;
-  letter-spacing: 0.2em;
+  font-size: 28px;
+  letter-spacing: 0 em;
   text-transform: uppercase;
-  line-height: 1.6;
+  line-height: 1;
 }
 
 /* ===== White Board ===== */
@@ -133,7 +143,7 @@ html, body, #root {
   transform-origin: left top;
   font-size: 14px;
   letter-spacing: 0.25em;
-  color: #2a4cff;
+  color: #000000;
   text-transform: uppercase;
   pointer-events: none;
 }
