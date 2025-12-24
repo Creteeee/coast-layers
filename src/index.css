@@ -40,9 +40,10 @@ html, body, #root {
   font-size: 60px;
   letter-spacing: 0 em;
   text-transform: uppercase;
-  border-bottom: 2px solid white;
+  border-bottom: 4px solid white;
   display: inline-block;
-
+  line-height: -2; /* 减小行高，让下划线更贴近文字 */
+  padding-bottom: 0; /* 移除底部内边距 */
 }
 
 .header-sub {

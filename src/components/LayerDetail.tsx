@@ -74,7 +74,7 @@ export default function LayerDetail({ season, layerIndex, onClose }: LayerDetail
   // 注意：Vite配置了base URL为 /coast-layers/
   const textureBase = layerData.texture || 'default'
   const texturePath = `/coast-layers/textures/v_${textureBase}.png`
-  const fallbackPath = '/coast-layers/textures/default_white.png'
+  // 移除 fallback 图片，如果图片不存在，会显示 container 的黑色背景
   
   // 调试：输出路径
   console.log('Texture path:', texturePath)
@@ -106,7 +106,7 @@ export default function LayerDetail({ season, layerIndex, onClose }: LayerDetail
           <div 
             className="layer-detail-texture"
             style={{
-              backgroundImage: `url('${texturePath}'), url('${fallbackPath}')`,
+              backgroundImage: textureBase !== 'default' ? `url('${texturePath}')` : 'none',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
