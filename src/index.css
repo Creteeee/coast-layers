@@ -48,7 +48,7 @@ html, body, #root {
   position: relative;
   margin: 40px 60px;
   background: white;
-  padding: 200px 60px;
+  padding: 250px 60px;
   overflow: hidden; /* 移动的 season-stack 超出白板时裁剪 */
 }
 
@@ -87,7 +87,7 @@ html, body, #root {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 1.5px solid #2a4cff;
+  border: 1.5px solid rgba(0, 0, 0, 0);
   background: url('/textures/default_white.png') center center / cover no-repeat;
   pointer-events: auto; /* 需要在单个 layer 上做 hover 交互 */
 }
@@ -129,7 +129,7 @@ html, body, #root {
   position: absolute;
   bottom: 20px;
   left: -10px;
-  transform: rotate(30deg);
+  transform: rotate(30deg) rotateX(45deg);
   transform-origin: left top;
   font-size: 14px;
   letter-spacing: 0.25em;
