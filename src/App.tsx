@@ -9,12 +9,14 @@ export default function App() {
     const titleRef = useRef<HTMLDivElement>(null)
     const seasonRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
     const sectionRef = useRef<HTMLElement>(null)
+    const [sliceMap, setSliceMap] = useState<Record<string, string[]>>({})
     const [selectedSeason, setSelectedSeason] = useState<string | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
     // 控制返回按钮何时可见（只在层完成偏移后才出现）
     const [canGoBack, setCanGoBack] = useState(false)
     // 当前处于聚焦状态的 layer（1/2/3），null 表示仍是三个 layer 共存的二级画面
     const [selectedLayer, setSelectedLayer] = useState<number | null>(null)
+    const [selectedTexIndex, setSelectedTexIndex] = useState<number>(1)
     // 是否显示四级界面（layer详情）
     const [showLayerDetail, setShowLayerDetail] = useState(false)
 
@@ -33,6 +35,34 @@ export default function App() {
                 yoyo: true,
             }
         )
+    }, [])
+
+    useEffect(() => {
+        const checkImage = (src: string) =>
+            new Promise<boolean>((resolve) => {
+                const img = new Image()
+                img.onload = () => resolve(true)
+                img.onerror = () => resolve(false)
+                img.src = src
+            })
+
+        const loadSlices = async () => {
+            const next: Record<string, string[]> = {}
+            for (const season of SEASONS) {
+                for (const layer of [1, 2, 3]) {
+                    const key = `${season}-${layer}`
+                    const candidates = [1, 2, 3].map(
+                        (i) => `/coast-layers/textures/p_${season.toLowerCase()}_l${layer}_${i}.png`
+                    )
+                    const exists = await Promise.all(candidates.map(checkImage))
+                    const valid = candidates.filter((_, idx) => exists[idx])
+                    next[key] = valid.length ? valid : ['/coast-layers/textures/default_white.png']
+                }
+            }
+            setSliceMap(next)
+        }
+
+        loadSlices()
     }, [])
 
     const handleSeasonClick = (season: string) => {
@@ -263,10 +293,11 @@ export default function App() {
     }
 
     // ===== Layer click：从二级画面进入三级画面，或从三级画面进入四级画面 =====
-    const handleLayerClick = (season: string, layerIndex: number) => {
+    const handleLayerClick = (season: string, layerIndex: number, texIndex:number = 1) => {
         // 如果已经在三级画面，且点击的是当前选中的layer，则进入四级界面
         if (selectedLayer === layerIndex && selectedSeason === season) {
             setShowLayerDetail(true)
+            setSelectedTexIndex(texIndex)
             return
         }
 
@@ -287,6 +318,7 @@ export default function App() {
             .filter((el): el is HTMLDivElement => !!el)
 
         setIsAnimating(true)
+        setSelectedTexIndex(texIndex)
 
         const tl = gsap.timeline({
             defaults: { duration: 1.0, ease: 'power2.inOut' },
@@ -300,7 +332,7 @@ export default function App() {
         tl.to(
             clickedLayer,
             {
-                scale: 2,
+                scale: 1.5,
                 zIndex: 20,
             },
             0
@@ -352,76 +384,83 @@ export default function App() {
                     {SEASONS.map((season) => (
                         <div 
                             key={season} 
-                            className={`season-stack season-${season.toLowerCase()}`}
+                            className={`season-stack season-${season.toLowerCase()}${(['SUMMER','WINTER'].includes(season) ? ' up-offset' : '')}`}
                             ref={(el) => { seasonRefs.current[season] = el }}
                             onClick={() => handleSeasonClick(season)}
                         >
                             <div className="layers">
-                                <div
-                                    className="layer l1"
-                                    onMouseEnter={(e) => {
-                                        // 只在已选中该季节时才阻止冒泡
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerHover(season, 1, true)
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerHover(season, 1, false)
-                                    }}
-                                    onClick={(e) => {
-                                        // 只在已选中该季节时才阻止冒泡，让初始界面的点击能冒泡到父级
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerClick(season, 1)
-                                    }}
-                                />
-                                <div
-                                    className="layer l2"
-                                    onMouseEnter={(e) => {
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerHover(season, 2, true)
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerHover(season, 2, false)
-                                    }}
-                                    onClick={(e) => {
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerClick(season, 2)
-                                    }}
-                                />
-                                <div
-                                    className="layer l3"
-                                    onMouseEnter={(e) => {
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerHover(season, 3, true)
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerHover(season, 3, false)
-                                    }}
-                                    onClick={(e) => {
-                                        if (selectedSeason === season) {
-                                            e.stopPropagation()
-                                        }
-                                        handleLayerClick(season, 3)
-                                    }}
-                                />
+                                <div className="layer l1" style={{display: 'flex', flexDirection: 'row', gap: 2}}>
+                                    {(sliceMap[`${season}-1`] || ['/coast-layers/textures/default_white.png']).map((img, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="layer-segment"
+                                            style={{
+                                                flex: 1,
+                                                minWidth: 0,
+                                                minHeight: 0,
+                                                backgroundImage: `url(${img})`,
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                backgroundRepeat: 'no-repeat',
+                                                borderRadius: 0,
+                                                border: 'none',
+                                                transition: 'transform 0.2s',
+                                                cursor: 'pointer',
+                                            }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,true) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,false) }}
+                                            onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,1, idx+1) }}
+                                        />
+                                    ))}
+                                </div>
+                                <div className="layer l2" style={{display: 'flex', flexDirection: 'row', gap: 2}}>
+                                    {(sliceMap[`${season}-2`] || ['/coast-layers/textures/default_white.png']).map((img, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="layer-segment"
+                                            style={{
+                                                flex: 1,
+                                                minWidth: 0,
+                                                minHeight: 0,
+                                                backgroundImage: `url(${img})`,
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                backgroundRepeat: 'no-repeat',
+                                                borderRadius: 0,
+                                                border: 'none',
+                                                transition: 'transform 0.2s',
+                                                cursor: 'pointer',
+                                            }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,true) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,false) }}
+                                            onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,2, idx+1) }}
+                                        />
+                                    ))}
+                                </div>
+                                <div className="layer l3" style={{display: 'flex', flexDirection: 'row', gap: 2}}>
+                                    {(sliceMap[`${season}-3`] || ['/coast-layers/textures/default_white.png']).map((img, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="layer-segment"
+                                            style={{
+                                                flex: 1,
+                                                minWidth: 0,
+                                                minHeight: 0,
+                                                backgroundImage: `url(${img})`,
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                backgroundRepeat: 'no-repeat',
+                                                borderRadius: 0,
+                                                border: 'none',
+                                                transition: 'transform 0.2s',
+                                                cursor: 'pointer',
+                                            }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,true) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,false) }}
+                                            onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,3, idx+1) }}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                             <div className="season-name">{season}                            </div>
                         </div>
@@ -434,6 +473,7 @@ export default function App() {
                 <LayerDetail
                     season={selectedSeason.toLowerCase() as 'spring' | 'summer' | 'autumn' | 'winter'}
                     layerIndex={selectedLayer as 1 | 2 | 3}
+                    texIndex={selectedTexIndex}
                     onClose={handleCloseLayerDetail}
                 />
             )}

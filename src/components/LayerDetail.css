@@ -7,11 +7,17 @@
   height: 100%;
   background: black;
   z-index: 1000;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ===== Exit Button (右上角) ===== */
 .layer-detail-exit {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  background: transparent;
+
   position: absolute;
   top: 40px;
   right: 40px;
@@ -19,7 +25,6 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  background: transparent;
   border: none;
   color: white;
   cursor: pointer;
@@ -33,6 +38,13 @@
 
 .layer-detail-exit:hover {
   opacity: 0.7;
+}
+
+.layer-detail-exit img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .exit-icon {
@@ -81,25 +93,32 @@
 
 /* ===== Content Area (中央) ===== */
 .layer-detail-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 200px 80px 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+  
+    padding: 200px 80px 80px;
 }
+  
 /* ===== Texture Container (包含texture和overlay文字) ===== */
 .layer-detail-texture-container {
   position: relative;
   width: 100%;
-  height: 120%;
+  height: 100%;
   margin: 0 auto 40px; /* 左右居中 */
-  overflow: hidden; /* 裁剪超出容器的文字 */
+  overflow-x: hidden;
+  overflow-y: auto; /* 裁剪超出容器的文字 */
   border-radius: 4px;
   background-color: #000000; /* 纯黑色底图 */
 }
@@ -113,7 +132,8 @@
   height: 100%;
   background-color: transparent; /* 改为透明，让底层的黑色背景显示 */
   border-radius: 4px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   /* background-image 通过内联style设置，这里只设置基础样式 */
 }
 

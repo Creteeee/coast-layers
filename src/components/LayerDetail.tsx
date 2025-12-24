@@ -8,10 +8,13 @@ import './LayerDetail.css'
 interface LayerDetailProps {
   season: Season
   layerIndex: 1 | 2 | 3
+  texIndex?: number
   onClose: () => void
 }
 
-export default function LayerDetail({ season, layerIndex, onClose }: LayerDetailProps) {
+export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose }: LayerDetailProps) {
+  // texIndex 目前未在 UI 中展示，先标记使用以通过构建；后续可用于根据切片索引筛选/高亮
+  void texIndex
   const layerData = getLayerData(season, layerIndex)
   const descriptionRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -63,8 +66,7 @@ export default function LayerDetail({ season, layerIndex, onClose }: LayerDetail
     return (
       <div className="layer-detail-overlay">
         <button className="layer-detail-exit" onClick={onClose}>
-          <span className="exit-icon">→</span>
-          <span>Exit</span>
+          <img src="/coast-layers/textures/btn_exit.png" alt="Exit" />
         </button>
       </div>
     )
@@ -85,8 +87,7 @@ export default function LayerDetail({ season, layerIndex, onClose }: LayerDetail
     <div className="layer-detail-overlay">
       {/* 返回按钮 - 右上角 */}
       <button className="layer-detail-exit" onClick={onClose}>
-        <span className="exit-icon">→</span>
-        <span>Exit</span>
+        <img src="/coast-layers/textures/btn_exit.png" alt="Exit" />
       </button>
 
       {/* 左上方标题区域 */}
