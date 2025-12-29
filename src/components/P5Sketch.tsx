@@ -5,6 +5,12 @@ interface P5SketchProps {
   width?: number
   height?: number
   className?: string
+  imagePath?: string // 自定义底图路径
+  textContent?: string | string[] // 自定义文字内容（可以是字符串或字符串数组，支持多段文字）
+  textX?: number // 文字水平位置（相对于 canvas 宽度的比例，默认 0.1）
+  textY?: number // 第一段文字的垂直位置（相对于 canvas 高度的比例，默认 0.35）
+  paragraphSpacing?: number // 段落之间的间距（相对于 canvas 高度的比例，默认 0.1）
+  showStaticText?: boolean // 是否显示静态文字（默认 true）
 }
 
 interface Letter {
@@ -23,7 +29,13 @@ interface Letter {
 export default function P5Sketch({ 
   width = 800, 
   height = 600,
-  className = '' 
+  className = '',
+  imagePath,
+  textContent: propTextContent,
+  textX: propTextX,
+  textY: propTextY,
+  paragraphSpacing: propParagraphSpacing,
+  showStaticText = true
 }: P5SketchProps) {
   console.log('🚀 P5Sketch: 组件被创建', { width, height, className })
   console.error('🚀 P5Sketch: 组件被创建 (ERROR级别，确保可见)', { width, height, className })
@@ -96,29 +108,44 @@ export default function P5Sketch({
           customFont = null
         }
         
-        // ⭐ 加载底图（使用 public/p5-assets/images 目录下的图片）
-        const imagePath = '/coast-layers/p5-assets/images/autumn_layer2_1.png'
+        // ⭐ 加载底图（使用传入的 imagePath 或默认路径）
+        const finalImagePath = imagePath || '/coast-layers/p5-assets/images/autumn_layer2_1.png'
         
-        console.log('P5Sketch: 开始加载图片', imagePath)
+        console.log('P5Sketch: 开始加载图片', finalImagePath)
         bgImage = p.loadImage(
-          imagePath,
+          finalImagePath,
           () => {
             // 成功回调
             console.log('P5Sketch: 图片加载成功', bgImage)
           },
           () => {
             // 失败回调
-            console.error('P5Sketch: 图片加载失败，将使用黑色背景')
+            console.error('P5Sketch: 图片加载失败，将使用黑色背景', finalImagePath)
           }
         )
         console.log('P5Sketch: 图片加载命令已执行', bgImage)
       }
 
       p.setup = () => {
-        // 如果 width 或 height 为 0，使用窗口尺寸
-        const canvasWidth = width > 0 ? width : p.windowWidth
-        const canvasHeight = height > 0 ? height : p.windowHeight
-        console.log('P5Sketch: setup 被调用', { canvasWidth, canvasHeight, width, height, container: containerRef.current })
+        // 使用传入的 width 和 height，如果为 0 或无效，使用容器尺寸
+        let canvasWidth = width > 0 ? width : p.windowWidth
+        let canvasHeight = height > 0 ? height : p.windowHeight
+        
+        // 如果容器存在，尝试从容器获取尺寸
+        if (containerRef.current) {
+          const containerRect = containerRef.current.getBoundingClientRect()
+          if (containerRect.width > 0) canvasWidth = containerRect.width
+          if (containerRect.height > 0) canvasHeight = containerRect.height
+        }
+        
+        console.log('P5Sketch: setup 被调用', { 
+          canvasWidth, 
+          canvasHeight, 
+          width, 
+          height, 
+          container: containerRef.current,
+          containerRect: containerRef.current?.getBoundingClientRect()
+        })
         
         try {
           p.createCanvas(canvasWidth, canvasHeight)
@@ -153,36 +180,64 @@ export default function P5Sketch({
 
         // ===============================
         // ⭐⭐ 修改文字内容和位置 ⭐⭐
-        let textContent = `Bioturbation Intensity: the degree to which a sediment is burrowed. \nSometimes reported as an approximated proportion or percentage. \nMore typically, bioturbation intensity is Burrowing activities increase \nmicrohabitat heterogeneity and control the distribution \nand fluxes of oxidants (oxygen, nitrate, and iron), \nthereby enhancing aerobic remineralization, sulfate reduction, \nammonium oxidation, and denitrification (Kristensen and Kostka, 2005; \nMarinelli and Waldbusser, 2005; Bertics and Ziebis, 2009).` // 第一段文字内容
-        let textX = canvasWidth * 0.1   // ← 水平位置
-        let textY = canvasHeight * 0.25   // 第一段文字的垂直基线位置
+        // 处理多段文字：如果传入的是字符串，按段落分隔；如果是数组，直接使用
+        let paragraphs: string[] = []
+        if (Array.isArray(propTextContent)) {
+          paragraphs = propTextContent
+        } else if (propTextContent) {
+          // 如果包含三个换行符，按段落分隔；否则作为单段处理
+          if (propTextContent.includes('\n\n\n')) {
+            paragraphs = propTextContent.split('\n\n\n').map(p => p.trim()).filter(p => p.length > 0)
+          } else {
+            paragraphs = [propTextContent]
+          }
+        } else {
+          // 默认内容
+          paragraphs = [`Plant roots shape the shallow subsurface of tidal flats by anchoring\nsediments and redistributing water, air, and nutrients.`]
+        }
+        
+        // 使用传入的 textX/textY 或默认值
+        let textX = canvasWidth * (propTextX !== undefined ? propTextX : 0.1)   // ← 水平位置
+        let textY = canvasHeight * (propTextY !== undefined ? propTextY : 0.35)   // 第一段文字的垂直基线位置
+        let paragraphSpacing = canvasHeight * (propParagraphSpacing !== undefined ? propParagraphSpacing : 0.1) // 段落间距
         // ===============================
 
-        // ⭐ 根据第一段文字内容生成每个字母的下落对象
+        // ⭐ 根据所有段落文字内容生成每个字母的下落对象
         let lineHeight = fontSize * 1.4 // 每行文字之间的间距
-        let lines = textContent.split("\n") // 根据换行符分割文本为多行
-
         let yOffset = textY // 起始位置
+        let globalLineIndex = 0 // 全局行索引，用于跟踪所有段落的所有行
 
-        // 逐行生成字母
-        for (let i = 0; i < lines.length; i++) { // 从第一行开始
-          let line = lines[i]
-          for (let j = 0; j < line.length; j++) {
-            let letter = line.charAt(j)
-            letters.push({
-              letter: letter,          // 当前字母
-              x: textX + j * (fontSize * 0.6), // 水平位置（字母之间有间距）
-              y: yOffset,             // 字母的初始垂直位置
-              vy: p.random(gravityMin, gravityMax), // 每个字母的下落速度
-              falling: false,           // 字母是否开始下落
-              lineIndex: i,             // 记录当前字母在行中的位置
-              lineLength: line.length,  // 当前行的字母数量
-              originalX: textX + j * (fontSize * 0.8), // 用于计算横向堆积时的偏移量
-              initialYOffset: yOffset,  // 保存字母的初始位置，控制堆积效果
-              isRestored: false         // 字母是否已恢复
-            })
+        // 遍历每个段落
+        for (let paraIndex = 0; paraIndex < paragraphs.length; paraIndex++) {
+          let paragraph = paragraphs[paraIndex]
+          let lines = paragraph.split("\n") // 根据换行符分割段落为多行
+
+          // 逐行生成字母
+          for (let i = 0; i < lines.length; i++) {
+            let line = lines[i]
+            for (let j = 0; j < line.length; j++) {
+              let letter = line.charAt(j)
+              letters.push({
+                letter: letter,          // 当前字母
+                x: textX + j * (fontSize * 0.6), // 水平位置（字母之间有间距）
+                y: yOffset,             // 字母的初始垂直位置
+                vy: p.random(gravityMin, gravityMax), // 每个字母的下落速度
+                falling: false,           // 字母是否开始下落
+                lineIndex: globalLineIndex,             // 记录当前字母在全局行中的位置
+                lineLength: line.length,  // 当前行的字母数量
+                originalX: textX + j * (fontSize * 0.8), // 用于计算横向堆积时的偏移量
+                initialYOffset: yOffset,  // 保存字母的初始位置，控制堆积效果
+                isRestored: false         // 字母是否已恢复
+              })
+            }
+            yOffset += lineHeight // 调整下一行的垂直位置
+            globalLineIndex++ // 增加全局行索引
           }
-          yOffset += lineHeight // 调整下一行的垂直位置
+          
+          // 段落之间添加额外间距（最后一个段落后不加）
+          if (paraIndex < paragraphs.length - 1) {
+            yOffset += paragraphSpacing
+          }
         }
       }
 
@@ -255,8 +310,11 @@ export default function P5Sketch({
 
             // ⭐ 如果字母到达底部，停止下落并堆积
             const canvasHeight = height > 0 ? height : p.height
-            if (letterObj.y > canvasHeight - 50) {  // 到达底部
-              letterObj.y = canvasHeight - 50  // 保持字母在底部
+            // 计算底部边距：考虑字体大小，确保字母不会被遮挡
+            // 增加边距以避免被容器边框或背景遮挡
+            const bottomMargin = fontSize * 3 + 40 // 字体大小的3倍 + 更大的额外边距
+            if (letterObj.y > canvasHeight - bottomMargin) {  // 到达底部
+              letterObj.y = canvasHeight - bottomMargin  // 保持字母在底部，留出边距
               letterObj.vy = 0           // 停止下落
             }
           }
@@ -277,6 +335,11 @@ export default function P5Sketch({
 
       // 绘制静态文字
       function drawStaticText() {
+        // 如果 showStaticText 为 false，不绘制静态文字
+        if (!showStaticText) {
+          return
+        }
+        
         p.noStroke() // 不画边框
 
         p.fill(0) // 设置静态文字颜色（黑色）
@@ -414,8 +477,20 @@ export default function P5Sketch({
       hasContainer: !!containerRef.current,
       width,
       height,
+      imagePath,
+      textContent: propTextContent,
       timestamp: Date.now()
     })
+
+    // 清理旧的 p5 实例（如果存在）
+    if (p5InstanceRef.current) {
+      console.log('P5Sketch: 清理旧的 p5 实例（在 useEffect 中）', {
+        imagePath,
+        textContent: propTextContent
+      })
+      p5InstanceRef.current.remove()
+      p5InstanceRef.current = null
+    }
 
     // 如果容器已存在，立即初始化
     if (containerRef.current) {
@@ -454,7 +529,7 @@ export default function P5Sketch({
         p5InstanceRef.current = null
       }
     }
-  }, [width, height])
+  }, [width, height, imagePath, propTextContent, propTextX, propTextY, propParagraphSpacing, showStaticText]) // 当 props 改变时重新初始化
 
   console.log('P5Sketch: 渲染 JSX', { 
     containerRef: containerRef.current,

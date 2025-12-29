@@ -2,12 +2,112 @@
   {
     "season": "spring",
     "layerIndex": 1,
+    "texIndex": 1,
     "name": "SiltyMud",
     "introduction": "The first layer is the mineral framework",
     "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
     "animationType": "flood",
     "color": "#8B7355",
     "texture": "silty_mud"
+  },
+  {
+    "season": "spring",
+    "layerIndex": 1,
+    "texIndex": 2,
+    "name": "Mud Rip-up Pebble",
+    "introduction": "Pebbles are records of interruption.",
+    "description": "Mud rip-up pebbles form when cohesive mud layers are torn apart by sudden increases in water energy.\n- What was once a continuous surface is fractured, lifted, and transported as discrete fragments, later redeposited within sand or silt.\n- These pebbles are records of interruption.\n- They mark moments when calm conditions were abruptly broken—by tides, floods, or shifting currents—allowing erosion to become both destructive and archival.\n- Carried briefly and preserved quickly, mud rip-up pebbles capture the instant when a surface lost its continuity and became memory embedded in sediment.",
+    "animationType": "none",
+    "color": "#000000",
+    "texture": "mud_rip-up_pebble"
+  },
+  {
+    "season": "spring",
+    "layerIndex": 2,
+    "texIndex": 1,
+    "name": "Bioturbation",
+    "introduction": "The natural mixing of sediments and porewaters",
+    "description": " ",
+    "animationType": "none",
+    "color": "#000000",
+    "texture": "bioturbation"
+  },
+  {
+    "season": "spring",
+    "layerIndex": 2,
+    "texIndex": 2,
+    "name": "Plant Roots",
+    "introduction": "The natural mixing of sediments and porewaters",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "none",
+    "color": "#000000",
+    "texture": "plant_roots"
+  },
+  {
+    "season": "summer",
+    "layerIndex": 1,
+    "texIndex": 1,
+    "name": "Silty Mud",
+    "introduction": "The first layer is the mineral framework",
+    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "silty_mud"
+  },
+  {
+    "season": "summer",
+    "layerIndex": 2,
+    "texIndex": 1,
+    "name": "Bioturbation",
+    "introduction": "The natural mixing of sediments and porewaters",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "none",
+    "color": "#000000",
+    "texture": "bioturbation"
+  },
+  {
+    "season": "autumn",
+    "layerIndex": 1,
+    "texIndex": 1,
+    "name": "Silty Mud",
+    "introduction": "The first layer is the mineral framework",
+    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "silty_mud"
+  },
+  {
+    "season": "autumn",
+    "layerIndex": 2,
+    "texIndex": 1,
+    "name": "Bioturbation",
+    "introduction": "The natural mixing of sediments and porewaters",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "none",
+    "color": "#000000",
+    "texture": "bioturbation"
+  },
+  {
+    "season": "winter",
+    "layerIndex": 1,
+    "texIndex": 1,
+    "name": "Silty Mud",
+    "introduction": "The first layer is the mineral framework",
+    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "silty_mud"
+  },
+  {
+    "season": "winter",
+    "layerIndex": 2,
+    "texIndex": 1,
+    "name": "Bioturbation",
+    "introduction": "The natural mixing of sediments and porewaters",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "none",
+    "color": "#000000",
+    "texture": "bioturbation"
   }
 ]
 

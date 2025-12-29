@@ -81,10 +81,25 @@ html, body, #root {
   transform: translateY(-40px);
 }
 
+.season-stack.down-offset {
+  transform: translateY(40px);
+}
+
 .season-stack:hover:not(.selected) {
-  transform: scale(1.15);
   z-index: 2;
   transition: transform 0.4s ease;
+}
+
+.season-stack.up-offset:hover:not(.selected) {
+  transform: translateY(-40px) scale(1.15);
+}
+
+.season-stack.down-offset:hover:not(.selected) {
+  transform: translateY(40px) scale(1.15);
+}
+
+.season-stack:not(.up-offset):not(.down-offset):hover:not(.selected) {
+  transform: scale(1.15);
 }
 
 /* ===== Layers ===== */

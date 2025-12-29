@@ -2,15 +2,16 @@ import layerData from '../data/layerData.json'
 import type { LayerData, Season } from '../types/layer'
 
 /**
- * 根据季节和层级索引获取对应的 layer 数据
+ * 根据季节、层级索引和纹理索引获取对应的 layer 数据
  * @param season 季节
  * @param layerIndex 层级索引 (1, 2, 3)
+ * @param texIndex 纹理索引 (1, 2, 3)，可选，默认为 1
  * @returns LayerData 或 null（如果未找到）
  */
-export function getLayerData(season: Season, layerIndex: 1 | 2 | 3): LayerData | null {
+export function getLayerData(season: Season, layerIndex: 1 | 2 | 3, texIndex: number = 1): LayerData | null {
   const data = layerData as LayerData[]
   const found = data.find(
-    (item) => item.season === season && item.layerIndex === layerIndex
+    (item) => item.season === season && item.layerIndex === layerIndex && (item.texIndex ?? 1) === texIndex
   )
   return found || null
 }

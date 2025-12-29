@@ -384,7 +384,7 @@ export default function App() {
                     {SEASONS.map((season) => (
                         <div 
                             key={season} 
-                            className={`season-stack season-${season.toLowerCase()}${(['SUMMER','WINTER'].includes(season) ? ' up-offset' : '')}`}
+                            className={`season-stack season-${season.toLowerCase()}${(['SUMMER','WINTER'].includes(season) ? ' up-offset' : ['SPRING','AUTUMN'].includes(season) ? ' down-offset' : '')}`}
                             ref={(el) => { seasonRefs.current[season] = el }}
                             onClick={() => handleSeasonClick(season)}
                         >
