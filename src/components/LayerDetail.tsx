@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import type { JSX } from 'react'
 import gsap from 'gsap'
 import { getLayerData } from '../utils/layerData'
 import type { Season } from '../types/layer'
@@ -186,37 +185,14 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
         <img src="/coast-layers/textures/btn_exit.png" alt="Exit" />
       </button>
 
-      {/* 左上方标题区域 */}
-      {layerData && !isSpringLayer1Part1 && !isSpringLayer1Part2 && !isSummerLayer1Part1 && !isSummerLayer1Part2 && !isSummerLayer1Part3 && !isAutumnLayer1Part1 && !isAutumnLayer1Part2 && !isWinterLayer1Part1 && (
-      <div className="layer-detail-header">
-        <h1 className="layer-detail-title">{layerData.name}</h1>
-        <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
-          <div className="subtitle-line">{layerData.introduction}</div>
+      {/* 标题区域：有数据就展示 */}
+      {layerData && (
+        <div className="layer-detail-header">
+          <h1 className="layer-detail-title">{layerData.name}</h1>
+          <div className="layer-detail-subtitle">
+            <div className="subtitle-line">{layerData.introduction}</div>
+          </div>
         </div>
-      </div>
-      )}
-      
-      {/* 对于 spring layer1 texIndex=1，也显示 header */}
-      {isSpringLayer1Part1 && layerData && (
-      <div className="layer-detail-header">
-        <h1 className="layer-detail-title">{layerData.name}</h1>
-        <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
-          <div className="subtitle-line">{layerData.introduction}</div>
-        </div>
-      </div>
-      )}
-      
-      {/* 对于 spring layer1 texIndex=2，也显示 header */}
-      {isSpringLayer1Part2 && layerData && (
-      <div className="layer-detail-header">
-        <h1 className="layer-detail-title">{layerData.name}</h1>
-        <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
-          <div className="subtitle-line">{layerData.introduction}</div>
-        </div>
-      </div>
       )}
       
       {/* 对于 spring layer2 texIndex=1，也显示 header */}
@@ -224,7 +200,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -235,7 +210,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -246,7 +220,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -257,7 +230,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -268,7 +240,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -279,7 +250,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -290,7 +260,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -301,7 +270,6 @@ export default function LayerDetail({ season, layerIndex, texIndex = 1, onClose 
       <div className="layer-detail-header">
         <h1 className="layer-detail-title">{layerData.name}</h1>
         <div className="layer-detail-subtitle">
-          <div className="subtitle-line">{season.toUpperCase()}-</div>
           <div className="subtitle-line">{layerData.introduction}</div>
         </div>
       </div>
@@ -1069,63 +1037,7 @@ and invertebrates.`}
           />
           ) : null}
 
-          {/* Description 文字 - Flood 动画 - Overlay在texture上方 */}
-          {layerData && layerData.animationType === 'flood' && !isSpringLayer1Part1 && !isSpringLayer1Part2 && !isSummerLayer1Part1 && !isSummerLayer1Part2 && !isSummerLayer1Part3 && !isAutumnLayer1Part1 && !isAutumnLayer1Part2 && !isWinterLayer1Part1 && (
-            <div 
-              className="layer-detail-description flood-animation"
-              style={{
-                color: layerData.color || 'rgba(255, 255, 255, 0.9)',
-              }}
-            >
-              {(() => {
-                const lines = layerData.description.split('\n').filter(line => line.trim())
-                const processedLines: JSX.Element[] = []
-                let refIndex = 0
-
-                lines.forEach((line, index) => {
-                  // 每行前面添加随机空格（0-4个）
-                  const leadingSpaces = ' '.repeat(Math.floor(Math.random() * 200))
-                  const processedLine = leadingSpaces + line.trim()
-
-                  processedLines.push(
-                    <div
-                      key={`line-${index}`}
-                      className="description-line"
-                      ref={(el) => {
-                        descriptionRefs.current[refIndex] = el
-                        refIndex++
-                      }}
-                    >
-                      {processedLine}
-                    </div>
-                  )
-
-                  // 句子之间随机添加1-2个空行（呼吸感）
-                  if (index < lines.length - 1) {
-                    const emptyLinesCount = Math.floor(Math.random() * 2) + 1 // 1-2个空行
-                    for (let i = 0; i < emptyLinesCount; i++) {
-                      processedLines.push(
-                        <div key={`empty-${index}-${i}`} className="description-line-empty" />
-                      )
-                    }
-                  }
-                })
-
-                return processedLines
-              })()}
-            </div>
-          )}
-
-          {/* 其他动画类型可以在这里扩展 */}
-          {layerData && layerData.animationType !== 'flood' && !isSpringLayer1Part1 && !isSpringLayer1Part2 && !isSummerLayer1Part1 && !isSummerLayer1Part2 && !isSummerLayer1Part3 && !isAutumnLayer1Part1 && !isAutumnLayer1Part2 && !isWinterLayer1Part1 && !isAutumnLayer2 && !isSpringLayer2Part1 && !isSpringLayer2Part2 && !isSummerLayer2Part1 && !isSummerLayer2Part2 && !isAutumnLayer2Part2 && !isWinterLayer2Part1 && !isWinterLayer2Part2 && (
-            <div className="layer-detail-description">
-              {layerData.description.split('\n').map((line, index) => (
-                <div key={index} className="description-line">
-                  {line.trim()}
-                </div>
-              ))}
-            </div>
-          )}
+          {/* Description 展示已按需求移除 */}
         </div>
       </div>
     </div>

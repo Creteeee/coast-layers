@@ -3,11 +3,11 @@
     "season": "spring",
     "layerIndex": 1,
     "texIndex": 1,
-    "name": "SiltyMud",
+    "name": "Silty Mud",
     "introduction": "The first layer is the mineral framework",
     "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
     "animationType": "flood",
-    "color": "#8B7355",
+    "color": "#000000",
     "texture": "silty_mud"
   },
   {
@@ -16,10 +16,76 @@
     "texIndex": 2,
     "name": "Mud Rip-up Pebble",
     "introduction": "Pebbles are records of interruption.",
-    "description": "Mud rip-up pebbles form when cohesive mud layers are torn apart by sudden increases in water energy.\n- What was once a continuous surface is fractured, lifted, and transported as discrete fragments, later redeposited within sand or silt.\n- These pebbles are records of interruption.\n- They mark moments when calm conditions were abruptly broken—by tides, floods, or shifting currents—allowing erosion to become both destructive and archival.\n- Carried briefly and preserved quickly, mud rip-up pebbles capture the instant when a surface lost its continuity and became memory embedded in sediment.",
+    "description": "Mud rip-up pebbles form when cohesive mud layers are torn apart by sudden increases in water energy.\n What was once a continuous surface is fractured, lifted, and transported as discrete fragments, later redeposited within sand or silt.\n These pebbles are records of interruption.\n They mark moments when calm conditions were abruptly broken—by tides, floods, or shifting currents—allowing erosion to become both destructive and archival.\n Carried briefly and preserved quickly, mud rip-up pebbles capture the instant when a surface lost its continuity and became memory embedded in sediment.",
     "animationType": "none",
     "color": "#000000",
     "texture": "mud_rip-up_pebble"
+  },
+  {
+    "season": "summer",
+    "layerIndex": 1,
+    "texIndex": 1,
+    "name": "Silty Mud",
+    "introduction": "The first layer is the mineral framework",
+    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "silty_mud"
+  },
+  {
+    "season": "summer",
+    "layerIndex": 1,
+    "texIndex": 2,
+    "name": "Cross-Bedding",
+    "introduction": "Records of movement of sediment under flowing water or wind.",
+    "description": "Cross bedding records the quiet movement of sediment under flowing water or wind.\n As currents shift direction, layers of sand or silt are deposited at an angle, forming inclined internal structures that cut across the main bedding plane.\n These slanted layers are not random.\n They preserve the memory of flow—its direction, strength, and rhythm—capturing moments when particles were lifted, transported, and gently laid down again.\n Cross bedding is, in this sense, a frozen trace of motion, where time is stored as geometry.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "cross-bedding"
+  },
+  {
+    "season": "summer",
+    "layerIndex": 1,
+    "texIndex": 3,
+    "name": "Salt Marsh",
+    "introduction": "Records of slow water movement.",
+    "description": "Regular flooding by seawater delivers sediment and nutrients, while dense plant growth slows water flow, promoting further deposition and vertical accretion of the marsh surface.\n Beneath the vegetation, sediments are shaped by a combination of tidal inundation, root growth, and microbial activity. Organic matter accumulates as plants grow and decay, binding mineral particles into cohesive layers that retain water and resist erosion.\n At the same time, tidal channels and creeks carve through the marsh, redistributing sediments and maintaining connections between land and sea.Over longer timescales, salt marshes function as transitional environments—neither fully terrestrial nor fully marine.\n  They buffer wave energy, record fluctuations in sea level, preserve traces of biological and sedimentary processes.\n In this layered landscape, living plants, water movement, and deposited sediments merge into a slowly evolving archive of coastal change.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "salt_marsh"
+  },
+  {
+    "season": "autumn",
+    "layerIndex": 1,
+    "texIndex": 1,
+    "name": "Silty Mud",
+    "introduction": "The first layer is the mineral framework",
+    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "silty_mud"
+  },
+  {
+    "season": "autumn",
+    "layerIndex": 1,
+    "texIndex": 2,
+    "name": "Gravel & Sandy Gravel",
+    "introduction": "Deposition of coarse sediment particles under relatively high-energy conditions.",
+    "description": "Gravel and sandy gravel consist of coarse sediment particles deposited under relatively high-energy conditions.\n These materials form where currents or waves are strong enough to remove finer grains, leaving behind a framework of pebbles and coarse sand that resists further transport.\n The spaces between gravel particles allow water to pass through easily, making these layers highly permeable and well-drained.As a result, gravelly sediments respond quickly to changes in water level, drying and rewetting more rapidly than finer deposits.\n Their surfaces are unstable, shifting with each energetic event rather than accumulating long-term stratification.\n Within coastal and tidal environments, gravel and sandy gravel often mark zones of intensified movement—such as channel margins, wave-exposed shorelines, or reworked layers beneath finer sediments.\n They represent moments when energy dominates over accumulation, recording conditions where transport outweighs preservation and the landscape remains in a state of continual adjustment.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "gravel_and_sandy_gravel"
+  },
+  {
+    "season": "winter",
+    "layerIndex": 1,
+    "texIndex": 1,
+    "name": "Silty Mud",
+    "introduction": "The first layer is the mineral framework",
+    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
+    "animationType": "flood",
+    "color": "#000000",
+    "texture": "silty_mud"
   },
   {
     "season": "spring",
@@ -27,8 +93,8 @@
     "texIndex": 1,
     "name": "Bioturbation",
     "introduction": "The natural mixing of sediments and porewaters",
-    "description": " ",
-    "animationType": "none",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "drop",
     "color": "#000000",
     "texture": "bioturbation"
   },
@@ -37,44 +103,33 @@
     "layerIndex": 2,
     "texIndex": 2,
     "name": "Plant Roots",
-    "introduction": "The natural mixing of sediments and porewaters",
-    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
-    "animationType": "none",
+    "introduction": "Plant roots shape the shallow subsurface of tidal flats",
+    "description": "Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.",
+    "animationType": "drop",
     "color": "#000000",
     "texture": "plant_roots"
   },
   {
     "season": "summer",
-    "layerIndex": 1,
+    "layerIndex": 2,
     "texIndex": 1,
-    "name": "Silty Mud",
-    "introduction": "The first layer is the mineral framework",
-    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
-    "animationType": "flood",
+    "name": "Bioturbation",
+    "introduction": "The natural mixing of sediments and porewaters",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "drop",
     "color": "#000000",
-    "texture": "silty_mud"
+    "texture": "bioturbation"
   },
   {
     "season": "summer",
     "layerIndex": 2,
-    "texIndex": 1,
-    "name": "Bioturbation",
-    "introduction": "The natural mixing of sediments and porewaters",
-    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
-    "animationType": "none",
+    "texIndex": 2,
+    "name": "Plant Roots",
+    "introduction": "Plant roots shape the shallow subsurface of tidal flats",
+    "description": "Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.",
+    "animationType": "drop",
     "color": "#000000",
-    "texture": "bioturbation"
-  },
-  {
-    "season": "autumn",
-    "layerIndex": 1,
-    "texIndex": 1,
-    "name": "Silty Mud",
-    "introduction": "The first layer is the mineral framework",
-    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
-    "animationType": "flood",
-    "color": "#000000",
-    "texture": "silty_mud"
+    "texture": "plant_roots"
   },
   {
     "season": "autumn",
@@ -82,21 +137,21 @@
     "texIndex": 1,
     "name": "Bioturbation",
     "introduction": "The natural mixing of sediments and porewaters",
-    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
-    "animationType": "none",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "drop",
     "color": "#000000",
     "texture": "bioturbation"
   },
   {
-    "season": "winter",
-    "layerIndex": 1,
-    "texIndex": 1,
-    "name": "Silty Mud",
-    "introduction": "The first layer is the mineral framework",
-    "description": "The first layer is the mineral framework\n- feldspar (KAlSi3O8, NaAlSi3O8, CaAl2Si2O8)\n- clay minerals (montmorillonite, etc.)\n\nThe second layer is secondary coatings\n- iron oxides (Fe2O3 / FeOOH)\n- The determinants of this layer include color (yellow, brown, red)\n- carbonate minerals (calcite)\n- cementation, redox reactions, and spectral characteristics.",
-    "animationType": "flood",
+    "season": "autumn",
+    "layerIndex": 2,
+    "texIndex": 2,
+    "name": "Plant Roots",
+    "introduction": "Plant roots shape the shallow subsurface of tidal flats",
+    "description": "Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.",
+    "animationType": "drop",
     "color": "#000000",
-    "texture": "silty_mud"
+    "texture": "plant_roots"
   },
   {
     "season": "winter",
@@ -104,10 +159,122 @@
     "texIndex": 1,
     "name": "Bioturbation",
     "introduction": "The natural mixing of sediments and porewaters",
-    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n- Burrowing bivalves maintaining contact with the overlying water through their siphons.",
-    "animationType": "none",
+    "description": "Bioturbation is the natural mixing of sediments and porewaters by the burrowing, feeding, and movement of marine organisms.\n This process is driven by diverse fauna—including arthropods, annelids, and mollusks—living in self-built burrows and tubes within the sediment.\n Typical examples include:\n- Chironomid larvae in U-shaped tubes that actively pump water for ventilation.\n- Tubificid worms living head-down, feeding on deep sediment.\n Burrowing bivalves maintaining contact with the overlying water through their siphons.",
+    "animationType": "drop",
     "color": "#000000",
     "texture": "bioturbation"
+  },
+  {
+    "season": "winter",
+    "layerIndex": 2,
+    "texIndex": 2,
+    "name": "Plant Roots",
+    "introduction": "Plant roots shape the shallow subsurface of tidal flats",
+    "description": "Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.Plant roots shape the shallow subsurface of tidal flats by anchoring sediments and redistributing water, air, and nutrients.\n Through growth and decay, roots create networks of voids and channels that alter sediment structure and permeability.\n Typical examples include:\n Mat-forming organisms such as mussels (M. senhousia) or algae (Caulerpa spp.) that blanket the sediment surface may have a reverse effect, homogenizing sediments by trapping fine particles and promoting dysaerobic or anaerobic conditions, or by limiting access to particles for subsurface feeders below. as Bioturbation Index (as 0 = low and 6 = reworked) or Ichnofabric Index (as 0 = low and 6 = reworked,; both systems are supported with visual aids for the estimation of bioturbation intensity.",
+    "animationType": "drop",
+    "color": "#000000",
+    "texture": "plant_roots"
+  },
+  {
+    "season": "spring",
+    "layerIndex": 3,
+    "texIndex": 1,
+    "name": "Acid Water Erosion",
+    "introduction": "Mineral surfaces eroded by acidic water.",
+    "description": "Acidic water erosion occurs in environments where water with lowered pH interacts persistently with exposed mineral surfaces.\n It is not a sudden or violent process, but a slow and continuous form of material transformation, often acting along fractures, pores, and grain boundaries.\n In many cases, acidic water penetrates beyond the visible surface, extending its influence into subsurface layers.\n Similar dissolution-driven processes continue beneath the ground, where minerals are gradually weakened, mobilized, or reprecipitated, allowing erosion to function not only as removal, but also as a quiet reorganization of matter.",
+    "animationType": "erosion",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
+  },
+  {
+    "season": "spring",
+    "layerIndex": 3,
+    "texIndex": 2,
+    "name": "Tidal Flat",
+    "introduction": "Gently sloping coastal zones that are primarily composed of soft, fine sediments.",
+    "description": "Tidal flats, also known as mudflats or tidal mudflats, are gently sloping coastal zones that are primarily composed of soft, fine sediments such as mud, silt, and sand. These regions are characterized by sparse vegetation cover and are frequently exposed to the air as the tide recedes. They are located between the lowest and highest astronomical tide marks, meaning they are submerged during high tide and exposed during low tide, which creates a dynamic and ever-changing environment.\n Tidal flats often extend seaward beyond the low tide line, where wave and tidal forces continue to influence sediment movement. The sediment structure of tidal flats can vary greatly, with some areas forming cohesive mudbanks that behave similarly to cohesive clay or mud structures found in deeper subtidal zones. These zones are essential for a variety of ecological processes, providing crucial habitats for many marine species, including birds, fish, and invertebrates.",
+    "animationType": "drop",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
+  },
+  {
+    "season": "spring",
+    "layerIndex": 3,
+    "texIndex": 3,
+    "name": "Floodplain-Estuary",
+    "introduction": "Gently sloping coastal zones that are primarily composed of soft, fine sediments",
+    "description": "Floodplains and estuaries form interconnected landscapes where riverine and marine processes converge. Floodplains develop alongside rivers through periodic flooding, while estuaries emerge at the interface where freshwater meets the sea under tidal influence. Together, they create environments defined by fluctuating water levels, shifting salinity, and variable sediment supply, in which land and water are continuously reconfigured by flow.\n Within these systems, sediment deposition and reworking occur unevenly across space and time. Flood events spread fine materials across floodplains, smoothing surfaces through thin, episodic layers, while tidal currents within estuaries redistribute these sediments through channels, shoals, and intertidal zones. Over longer timescales, floodplain–estuary landscapes function as transitional archives, recording changes in discharge, tides, and sea level. Rather than forming stable terrain, they remain adaptive surfaces shaped by continual exchange between freshwater and saltwater.",
+    "animationType": "drop",
+    "color": "#000000",
+    "texture": "floodplain-estuary"
+  },
+  {
+    "season": "summer",
+    "layerIndex": 3,
+    "texIndex": 1,
+    "name": "Acid Water Erosion",
+    "introduction": "Mineral surfaces eroded by acidic water.",
+    "description": "Acidic water erosion occurs in environments where water with lowered pH interacts persistently with exposed mineral surfaces.\n It is not a sudden or violent process, but a slow and continuous form of material transformation, often acting along fractures, pores, and grain boundaries.\n In many cases, acidic water penetrates beyond the visible surface, extending its influence into subsurface layers.\n Similar dissolution-driven processes continue beneath the ground, where minerals are gradually weakened, mobilized, or reprecipitated, allowing erosion to function not only as removal, but also as a quiet reorganization of matter.",
+    "animationType": "erosion",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
+  },
+  {
+    "season": "summer",
+    "layerIndex": 3,
+    "texIndex": 2,
+    "name": "Tidal Flat",
+    "introduction": "Gently sloping coastal zones that are primarily composed of soft, fine sediments.",
+    "description": "Tidal flats, also known as mudflats or tidal mudflats, are gently sloping coastal zones that are primarily composed of soft, fine sediments such as mud, silt, and sand. These regions are characterized by sparse vegetation cover and are frequently exposed to the air as the tide recedes. They are located between the lowest and highest astronomical tide marks, meaning they are submerged during high tide and exposed during low tide, which creates a dynamic and ever-changing environment.\n Tidal flats often extend seaward beyond the low tide line, where wave and tidal forces continue to influence sediment movement. The sediment structure of tidal flats can vary greatly, with some areas forming cohesive mudbanks that behave similarly to cohesive clay or mud structures found in deeper subtidal zones. These zones are essential for a variety of ecological processes, providing crucial habitats for many marine species, including birds, fish, and invertebrates.",
+    "animationType": "drop",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
+  },
+  {
+    "season": "autumn",
+    "layerIndex": 3,
+    "texIndex": 1,
+    "name": "Acid Water Erosion",
+    "introduction": "Mineral surfaces eroded by acidic water.",
+    "description": "Acidic water erosion occurs in environments where water with lowered pH interacts persistently with exposed mineral surfaces.\n It is not a sudden or violent process, but a slow and continuous form of material transformation, often acting along fractures, pores, and grain boundaries.\n In many cases, acidic water penetrates beyond the visible surface, extending its influence into subsurface layers.\n Similar dissolution-driven processes continue beneath the ground, where minerals are gradually weakened, mobilized, or reprecipitated, allowing erosion to function not only as removal, but also as a quiet reorganization of matter.",
+    "animationType": "erosion",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
+  },
+  {
+    "season": "autumn",
+    "layerIndex": 3,
+    "texIndex": 2,
+    "name": "Tidal Flat",
+    "introduction": "Gently sloping coastal zones that are primarily composed of soft, fine sediments.",
+    "description": "Tidal flats, also known as mudflats or tidal mudflats, are gently sloping coastal zones that are primarily composed of soft, fine sediments such as mud, silt, and sand. These regions are characterized by sparse vegetation cover and are frequently exposed to the air as the tide recedes. They are located between the lowest and highest astronomical tide marks, meaning they are submerged during high tide and exposed during low tide, which creates a dynamic and ever-changing environment.\n Tidal flats often extend seaward beyond the low tide line, where wave and tidal forces continue to influence sediment movement. The sediment structure of tidal flats can vary greatly, with some areas forming cohesive mudbanks that behave similarly to cohesive clay or mud structures found in deeper subtidal zones. These zones are essential for a variety of ecological processes, providing crucial habitats for many marine species, including birds, fish, and invertebrates.",
+    "animationType": "drop",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
+  },
+  {
+    "season": "winter",
+    "layerIndex": 3,
+    "texIndex": 1,
+    "name": "Acid Water Erosion",
+    "introduction": "Mineral surfaces eroded by acidic water.",
+    "description": "Acidic water erosion occurs in environments where water with lowered pH interacts persistently with exposed mineral surfaces.\n It is not a sudden or violent process, but a slow and continuous form of material transformation, often acting along fractures, pores, and grain boundaries.\n In many cases, acidic water penetrates beyond the visible surface, extending its influence into subsurface layers.\n Similar dissolution-driven processes continue beneath the ground, where minerals are gradually weakened, mobilized, or reprecipitated, allowing erosion to function not only as removal, but also as a quiet reorganization of matter.",
+    "animationType": "erosion",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
+  },
+  {
+    "season": "winter",
+    "layerIndex": 3,
+    "texIndex": 2,
+    "name": "Tidal Flat",
+    "introduction": "Gently sloping coastal zones that are primarily composed of soft, fine sediments.",
+    "description": "Tidal flats, also known as mudflats or tidal mudflats, are gently sloping coastal zones that are primarily composed of soft, fine sediments such as mud, silt, and sand. These regions are characterized by sparse vegetation cover and are frequently exposed to the air as the tide recedes. They are located between the lowest and highest astronomical tide marks, meaning they are submerged during high tide and exposed during low tide, which creates a dynamic and ever-changing environment.\n Tidal flats often extend seaward beyond the low tide line, where wave and tidal forces continue to influence sediment movement. The sediment structure of tidal flats can vary greatly, with some areas forming cohesive mudbanks that behave similarly to cohesive clay or mud structures found in deeper subtidal zones. These zones are essential for a variety of ecological processes, providing crucial habitats for many marine species, including birds, fish, and invertebrates.",
+    "animationType": "drop",
+    "color": "#000000",
+    "texture": "acid_water_erosion"
   }
 ]
+
+
 
