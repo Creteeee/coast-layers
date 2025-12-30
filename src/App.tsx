@@ -259,6 +259,18 @@ export default function App() {
                 {
                     scale: 1,
                     zIndex: originalZ,
+                    y:
+                        selectedLayer === 1
+                            ? '-=100'
+                            : selectedLayer === 3
+                            ? '+=100'
+                            : '+=0',
+                    x:
+                        selectedLayer === 1
+                            ? '-=200'
+                            : selectedLayer === 3
+                            ? '+=200'
+                            : '+=0',
                 },
                 0
             )
@@ -473,6 +485,8 @@ export default function App() {
             {
                 scale: 1.5,
                 zIndex: 20,
+                y: layerIndex === 1 ? '+=100' : layerIndex === 3 ? '-=100' : '+=0',
+                x: layerIndex === 1 ? '+=200' : layerIndex === 3 ? '-=200' : '+=0',
             },
             0
         )

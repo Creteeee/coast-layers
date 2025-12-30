@@ -129,7 +129,7 @@ html, body, #root {
 .layer::before {
   content: '';
   position: absolute;
-  inset: -30px; /* 向外扩展 20px */
+  inset: -30px;
   transform: translateY(-15px) scale(1);
   background-image: url('/coast-layers/textures/layerBG.jpg');
   background-size: cover;
@@ -137,6 +137,19 @@ html, body, #root {
   background-repeat: no-repeat;
   z-index: 0;
   pointer-events: none;
+}
+
+/* 按层级切换底图 */
+.l1::before {
+  background-image: url('/coast-layers/textures/layerBG_l1.png');
+}
+
+.l2::before {
+  background-image: url('/coast-layers/textures/layerBG_l2.png');
+}
+
+.l3::before {
+  background-image: url('/coast-layers/textures/layerBG_l3.png');
 }
 
 .layer-segment {
