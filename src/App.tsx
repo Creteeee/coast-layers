@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import LayerDetail from './components/LayerDetail'
 import './index.css'
+import { getLayerData } from './utils/layerData'
+import type { Season } from './types/layer'
 
 const SEASONS = ['SPRING', 'SUMMER', 'AUTUMN', 'WINTER']
 
@@ -22,6 +24,13 @@ export default function App() {
     // 是否显示四级界面（layer详情）
     const [showLayerDetail, setShowLayerDetail] = useState(false)
     const seasonTitleRef = useRef<HTMLDivElement | null>(null)
+    const [sliceTooltip, setSliceTooltip] = useState<{
+        name: string
+        intro: string
+        pos: { x: number; y: number }
+        anchor: { x: number; y: number }
+        texIndex: number
+    } | null>(null)
 
     useEffect(() => {
         if (!titleRef.current) return
@@ -39,6 +48,28 @@ export default function App() {
             }
         )
     }, [])
+
+    // 二级界面左上角季节标题海浪动画
+    useEffect(() => {
+        if (!seasonTitleRef.current) return
+        // 仅在二级界面时播放（有 selectedSeason 且 canGoBack）
+        if (!selectedSeason || !canGoBack) {
+            gsap.killTweensOf(seasonTitleRef.current)
+            return
+        }
+        gsap.fromTo(
+            seasonTitleRef.current,
+            { y: 8, opacity: 0.7 },
+            {
+                y: -8,
+                opacity: 1,
+                duration: 4,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true,
+            }
+        )
+    }, [selectedSeason, canGoBack])
 
     useEffect(() => {
         const checkImage = (src: string) =>
@@ -227,6 +258,11 @@ export default function App() {
         const selectedStack = seasonRefs.current[selectedSeason]
         if (!selectedStack) return
 
+        // 立即隐藏二级标题/副标题，避免与一级叠显示
+        if (seasonTitleRef.current) gsap.set(seasonTitleRef.current, { opacity: 0 })
+        const seasonSubNow = document.querySelector<HTMLDivElement>('.season-top-sub')
+        if (seasonSubNow) gsap.set(seasonSubNow, { opacity: 0 })
+
         const topLayer = selectedStack.querySelector<HTMLDivElement>('.l1')
         const bottomLayer = selectedStack.querySelector<HTMLDivElement>('.l3')
         // 如果当前在三级画面（单个 layer 被选中），先回到二级画面：恢复该 layer 的 scale，其它 layer 重新出现
@@ -355,6 +391,28 @@ export default function App() {
                 0
             )
         }
+        // 渐隐右上角季节副标题
+        const seasonSubBack = document.querySelector<HTMLDivElement>('.season-top-sub')
+        if (seasonSubBack) {
+            tl.to(
+                seasonSubBack,
+                {
+                    opacity: 0,
+                },
+                0
+            )
+        }
+        // 渐隐右上角季节副标题
+        const seasonSubHide = document.querySelector<HTMLDivElement>('.season-top-sub')
+        if (seasonSubHide) {
+            tl.to(
+                seasonSubHide,
+                {
+                    opacity: 0,
+                },
+                0
+            )
+        }
 
         // 第二步：当前 stack 回到零偏移基准位置
         tl.to(selectedStack, {
@@ -409,7 +467,7 @@ export default function App() {
     }
 
     // ===== Layer hover：在放大后的视图里，悬浮单层轻微放大 =====
-    const handleLayerHover = (season: string, layerIndex: number, isEnter: boolean, target?: HTMLElement | null) => {
+    const handleLayerHover = (season: string, layerIndex: number, isEnter: boolean, target?: HTMLElement | null, texIndex?: number) => {
         // 只有当前被放大的 season-stack，且整体动画已完成时才响应 hover
         if (!selectedSeason || season !== selectedSeason) return
         if (!canGoBack || isAnimating) return
@@ -431,7 +489,30 @@ export default function App() {
             if (isEnter && target) {
                 target.style.border = '0.2px solid #0040FF'
                 target.style.boxShadow = 'inset 0 0 0 0.2px #0040FF'
+
+                // Tooltip 数据
+                const seasonKey = season.toLowerCase() as Season
+                const data = getLayerData(seasonKey, layerIndex as 1 | 2 | 3, texIndex || 1)
+                if (data) {
+                    const rect = target.getBoundingClientRect()
+                    let pos = { x: rect.left, y: rect.top }
+                    if ((texIndex || 1) === 1) {
+                        pos = { x: rect.left - 160, y: rect.top - 60 }
+                    } else if ((texIndex || 1) === 2) {
+                        pos = { x: rect.right - 150, y: rect.top - 60 }
+                    } else {
+                        pos = { x: rect.right - 70, y: rect.bottom - 100 }
+                    }
+                    setSliceTooltip({
+                        name: data.name,
+                        intro: data.introduction,
+                        pos,
+                        anchor: { x: pos.x, y: pos.y }, // placeholder, not used now
+                        texIndex: texIndex || 1,
+                    })
+                }
             }
+            if (!isEnter) setSliceTooltip(null)
             return
         }
 
@@ -441,6 +522,7 @@ export default function App() {
             duration: 0.6,
             ease: 'power2.out',
         })
+        if (!isEnter) setSliceTooltip(null)
     }
 
     // ===== Layer click：从二级画面进入三级画面，或从三级画面进入四级画面 =====
@@ -527,6 +609,15 @@ export default function App() {
                 <div className="season-top-title" ref={seasonTitleRef}>
                     {selectedSeason ? selectedSeason.toUpperCase() : ''}
                 </div>
+                <div
+                    className="season-top-sub"
+                    style={{ opacity: selectedSeason && canGoBack ? 1 : 0 }}
+                >
+                    {selectedSeason === 'SPRING' && 'The most characteristic geological features'}
+                    {selectedSeason === 'SUMMER' && 'Reshaping driven by moisture and surface movement'}
+                    {selectedSeason === 'AUTUMN' && 'The re-emergence of sediment as activity subsides'}
+                    {selectedSeason === 'WINTER' && 'The exposure of physical structures'}
+                </div>
                 {selectedSeason && canGoBack && (
                     <button 
                         className="back-button"
@@ -568,8 +659,8 @@ export default function App() {
                                                 transition: 'transform 0.2s',
                                                 cursor: 'pointer',
                                             }}
-                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,true, e.currentTarget) }}
-                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,false, e.currentTarget) }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,true, e.currentTarget, idx+1) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,false, e.currentTarget, idx+1) }}
                                             onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,1, idx+1) }}
                                         />
                                     ))}
@@ -597,8 +688,8 @@ export default function App() {
                                                 transition: 'transform 0.2s',
                                                 cursor: 'pointer',
                                             }}
-                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,true, e.currentTarget) }}
-                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,false, e.currentTarget) }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,true, e.currentTarget, idx+1) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,false, e.currentTarget, idx+1) }}
                                             onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,2, idx+1) }}
                                         />
                                     ))}
@@ -626,8 +717,8 @@ export default function App() {
                                                 transition: 'transform 0.2s',
                                                 cursor: 'pointer',
                                             }}
-                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,true, e.currentTarget) }}
-                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,false, e.currentTarget) }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,true, e.currentTarget, idx+1) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,false, e.currentTarget, idx+1) }}
                                             onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,3, idx+1) }}
                                         />
                                     ))}
@@ -640,6 +731,70 @@ export default function App() {
             </section>
 
             {/* ===== Layer Detail (四级界面) ===== */}
+            {sliceTooltip && (
+                <>
+                    <div
+                        style={{
+                            position: 'fixed',
+                            left: sliceTooltip.pos.x,
+                            top: sliceTooltip.pos.y,
+                            color: '#0040FF',
+                            fontSize: 32,
+                            letterSpacing: '0.08em',
+                            textTransform: 'uppercase',
+                            lineHeight: 1.2,
+                            zIndex: 999,
+                            pointerEvents: 'none',
+                            textDecoration: 'underline',
+                            transform: 'rotateX(45deg) rotateZ(45deg',
+                        }}
+                    >
+                        {sliceTooltip.name}
+                        <div
+                            style={{
+                                textDecoration: 'none',
+                                marginTop: 4,
+                                textTransform: 'capitalize',
+                                fontSize: 20,
+                                letterSpacing: '0.05em',
+                                
+                            }}
+                        >
+                            {sliceTooltip.intro.toLowerCase()}
+                        </div>
+                    </div>
+                    {(() => {
+                        // 可调的连线起点相对文本框的偏移（单位：px）
+                        const lineOffsetMap: Record<number, { dx: number; dy: number }> = {
+                            1: { dx: 400, dy: 50 },
+                            2: { dx: 100, dy: 30 },
+                            3: { dx: 0, dy: -100 },
+                        }
+                        const lineOffset = lineOffsetMap[sliceTooltip.texIndex] || lineOffsetMap[1]
+                        return (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            left: sliceTooltip.pos.x + lineOffset.dx,
+                            top: sliceTooltip.pos.y + lineOffset.dy,
+                            width: 2,
+                            height: 100,
+                            backgroundColor: '#0040FF',
+                            transformOrigin: 'center center',
+                            transform:
+                                sliceTooltip.texIndex === 1
+                                    ? 'rotateX(0deg) rotateY(0deg) rotateZ(-55deg)'
+                                    : sliceTooltip.texIndex === 2
+                                    ? 'rotateX(0deg) rotateY(0deg) rotateZ(56deg)'
+                                    : 'rotateX(0deg) rotateY(0deg) rotate(125deg)',
+                            zIndex: 998,
+                            pointerEvents: 'none',
+                        }}
+                    />
+                        )
+                    })()}
+                </>
+            )}
             {showLayerDetail && selectedSeason && selectedLayer !== null && (
                 <LayerDetail
                     season={selectedSeason.toLowerCase() as 'spring' | 'summer' | 'autumn' | 'winter'}

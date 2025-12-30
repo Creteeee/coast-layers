@@ -37,7 +37,7 @@
     "layerIndex": 1,
     "texIndex": 2,
     "name": "Cross-Bedding",
-    "introduction": "Records of movement of sediment under flowing water or wind.",
+    "introduction": "Records of movement flowing water or wind.",
     "description": "Cross bedding records the quiet movement of sediment under flowing water or wind.\n As currents shift direction, layers of sand or silt are deposited at an angle, forming inclined internal structures that cut across the main bedding plane.\n These slanted layers are not random.\n They preserve the memory of flow—its direction, strength, and rhythm—capturing moments when particles were lifted, transported, and gently laid down again.\n Cross bedding is, in this sense, a frozen trace of motion, where time is stored as geometry.",
     "animationType": "flood",
     "color": "#000000",
