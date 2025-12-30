@@ -56,7 +56,7 @@ html, body, #root {
 /* ===== White Board ===== */
 .section {
   position: relative;
-  margin: 40px 60px;
+  margin: 0px 60px;
   background: white;
   padding: 200px 60px;
   overflow: hidden; /* 移动的 season-stack 超出白板时裁剪 */
@@ -65,7 +65,9 @@ html, body, #root {
 .season-row {
   display: flex;
   justify-content: space-between;
+  transform: translateY(-80px);
   align-items: center;
+  
 }
 
 /* ===== Season Stack ===== */
@@ -109,7 +111,7 @@ html, body, #root {
   left: 0;
   width: 260px;
   height: 260px;
-  transform: rotateX(60deg) rotateZ(45deg);
+  transform: rotateX(45deg) rotateZ(45deg);
 }
 
 /* ===== Individual Layer ===== */
@@ -120,13 +122,50 @@ html, body, #root {
   border: 1.5px solid rgba(0, 0, 0, 0);
   background: transparent; /* 由子级 segment 决定背景 */
   pointer-events: auto; /* 需要在单个 layer 上做 hover 交互 */
+  overflow: visible; /* 允许底图外扩包围层 */
+}
+
+/* 底图比 layer 稍大，向外扩展包围 */
+.layer::before {
+  content: '';
+  position: absolute;
+  inset: -30px; /* 向外扩展 20px */
+  transform: translateY(-15px) scale(1);
+  background-image: url('/coast-layers/textures/layerBG.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .layer-segment {
   border: 1px solid #000000;
   box-sizing: border-box;
   box-shadow: inset 0 0 0 1px #000000; /* 强化可见度 */
+  position: relative;
+  z-index: 1; /* 确保在底图之上 */
 }
+
+/* ===== Layer labels (second-level only) ===== */
+.layer-label {
+  position: absolute;
+  left: 0px;
+  transform: translateY(400%);
+  transform-origin: left center;
+  color: #0040FF;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+  line-height: 1.15;
+  text-decoration: underline;
+  pointer-events: none;
+  white-space: pre-line;
+}
+
+.label-l1 { top: 56%; }
+.label-l2 { top: 56%; }
+.label-l3 { top: 56%; }
 
 .l1 {
   transform: translate(0px, 0px);
@@ -148,9 +187,9 @@ html, body, #root {
 /* ===== Season Label ===== */
 .season-name {
   position: absolute;
-  top: 50px;
-  right: -110px;
-  transform: rotateX(60deg) rotateZ(45deg);
+  top: -5px;
+  right: -140px;
+  transform: rotateX(45deg) rotateZ(45deg);
   transform-origin: left top;
   font-size: 40px;
   letter-spacing: 0.25em;

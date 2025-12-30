@@ -102,7 +102,7 @@ export default function App() {
         // 获取点击的stack的初始位置和尺寸
         const clickedRect = clickedStack.getBoundingClientRect()
         const initialX = clickedRect.left - sectionRect.left + clickedRect.width / 2
-        const initialY = clickedRect.top - sectionRect.top + clickedRect.height / 2 + 150
+        const initialY = clickedRect.top - sectionRect.top + clickedRect.height / 2 + 100
         // 纠正初始位置中 class 偏移（up-offset/down-offset），保证四季统一定位
         const appliedOffsetY = clickedStack.classList.contains('up-offset')
             ? -100
@@ -117,7 +117,7 @@ export default function App() {
 
         // 先淡出标题+上移 section，再让 stack 放大到中心，然后再展开 l1 / l3
         const tl = gsap.timeline({
-            defaults: { duration: 1.0, ease: 'power2.inOut' },
+            defaults: { duration: 1.0, ease: 'linear' },
             onComplete: () => {
                 setIsAnimating(false)
                 setCanGoBack(true) // 展开完成后才允许返回 & 显示按钮
@@ -177,7 +177,7 @@ export default function App() {
         tl.to(clickedStack, {
             x: deltaX,
             y: deltaY,
-            scale: 2,
+            scale: 1.5,
             zIndex: 10,
             ease: 'linear',
         })
@@ -350,6 +350,7 @@ export default function App() {
             y: 0,
             scale: 1,
             zIndex: 1,
+            ease: 'power1.inOut',
         })
 
         // 第三步：四个 stack 同步滑回各自 offset（含 up/down）
@@ -396,12 +397,10 @@ export default function App() {
     }
 
     // ===== Layer hover：在放大后的视图里，悬浮单层轻微放大 =====
-    const handleLayerHover = (season: string, layerIndex: number, isEnter: boolean) => {
+    const handleLayerHover = (season: string, layerIndex: number, isEnter: boolean, target?: HTMLElement | null) => {
         // 只有当前被放大的 season-stack，且整体动画已完成时才响应 hover
         if (!selectedSeason || season !== selectedSeason) return
         if (!canGoBack || isAnimating) return
-        // 如果已经进入单 layer 视图，就不再做 hover 放大，避免干扰
-        if (selectedLayer !== null) return
 
         const stack = seasonRefs.current[season]
         if (!stack) return
@@ -409,6 +408,22 @@ export default function App() {
         const layer = stack.querySelector<HTMLDivElement>(`.l${layerIndex}`)
         if (!layer) return
 
+        // 三级界面：只高亮当前层的当前切片，其它保持黑色
+        if (selectedLayer !== null) {
+            if (selectedLayer !== layerIndex) return
+            const segments = layer.querySelectorAll<HTMLDivElement>('.layer-segment')
+            segments.forEach((seg) => {
+                seg.style.border = '0.2px solid #000000'
+                seg.style.boxShadow = 'inset 0 0 0 0.2px #000000'
+            })
+            if (isEnter && target) {
+                target.style.border = '0.2px solid #0040FF'
+                target.style.boxShadow = 'inset 0 0 0 0.2px #0040FF'
+            }
+            return
+        }
+
+        // 二级界面：保持原有轻微放大
         gsap.to(layer, {
             scale: isEnter ? 1.15 : 1,
             duration: 0.6,
@@ -517,6 +532,11 @@ export default function App() {
                         >
                             <div className="layers">
                                 <div className="layer l1" style={{display: 'flex', flexDirection: 'row', gap: 2}}>
+                                    {selectedSeason === season && selectedLayer === null && (
+                                        <div className="layer-label label-l1">
+                                            SURFACE<br />INTERACTION
+                                        </div>
+                                    )}
                                     {(sliceMap[`${season}-1`] || ['/coast-layers/textures/default_white.png']).map((img, idx) => (
                                         <div
                                             key={idx}
@@ -534,13 +554,18 @@ export default function App() {
                                                 transition: 'transform 0.2s',
                                                 cursor: 'pointer',
                                             }}
-                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,true) }}
-                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,false) }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,true, e.currentTarget) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,1,false, e.currentTarget) }}
                                             onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,1, idx+1) }}
                                         />
                                     ))}
                                 </div>
                                 <div className="layer l2" style={{display: 'flex', flexDirection: 'row', gap: 2}}>
+                                    {selectedSeason === season && selectedLayer === null && (
+                                        <div className="layer-label label-l2">
+                                            TIDAL<br />REWORKING
+                                        </div>
+                                    )}
                                     {(sliceMap[`${season}-2`] || ['/coast-layers/textures/default_white.png']).map((img, idx) => (
                                         <div
                                             key={idx}
@@ -558,13 +583,18 @@ export default function App() {
                                                 transition: 'transform 0.2s',
                                                 cursor: 'pointer',
                                             }}
-                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,true) }}
-                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,false) }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,true, e.currentTarget) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,2,false, e.currentTarget) }}
                                             onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,2, idx+1) }}
                                         />
                                     ))}
                                 </div>
                                 <div className="layer l3" style={{display: 'flex', flexDirection: 'row', gap: 2}}>
+                                    {selectedSeason === season && selectedLayer === null && (
+                                        <div className="layer-label label-l3">
+                                            DEPOSITIONAL<br />ARCHIVE
+                                        </div>
+                                    )}
                                     {(sliceMap[`${season}-3`] || ['/coast-layers/textures/default_white.png']).map((img, idx) => (
                                         <div
                                             key={idx}
@@ -582,8 +612,8 @@ export default function App() {
                                                 transition: 'transform 0.2s',
                                                 cursor: 'pointer',
                                             }}
-                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,true) }}
-                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,false) }}
+                                            onMouseEnter={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,true, e.currentTarget) }}
+                                            onMouseLeave={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerHover(season,3,false, e.currentTarget) }}
                                             onClick={e => { if (selectedSeason===season) e.stopPropagation(); handleLayerClick(season,3, idx+1) }}
                                         />
                                     ))}
