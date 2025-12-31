@@ -216,16 +216,17 @@ html, body, #root {
 /* ===== Season Label ===== */
 .season-name {
   position: absolute;
-  top: -5px;
-  right: -140px;
+  top: 20px;
+  right: -110px;
   transform: rotateX(45deg) rotateZ(45deg);
   transform-origin: left top;
   font-size: 40px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0em;
   color: #0040FF;
   text-transform: uppercase;
   pointer-events: none;
   opacity: 1;
+  text-decoration: underline;
   transition: opacity 0.4s ease;
 }
 
