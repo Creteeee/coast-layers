@@ -13,6 +13,7 @@ export default function App() {
     const seasonRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
     const sectionRef = useRef<HTMLElement>(null)
     const initialSectionHeightRef = useRef<number | null>(null)
+    const bgAudioRef = useRef<HTMLAudioElement | null>(null)
     const [sliceMap, setSliceMap] = useState<Record<string, string[]>>({})
     const [selectedSeason, setSelectedSeason] = useState<string | null>(null)
     const [isAnimating, setIsAnimating] = useState(false)
@@ -47,6 +48,29 @@ export default function App() {
                 yoyo: true,
             }
         )
+    }, [])
+
+    // 背景音乐（自动播放 + 循环）
+    useEffect(() => {
+        const audio = bgAudioRef.current
+        if (!audio) return
+        audio.volume = 0.6
+        const tryPlay = () => {
+            const p = audio.play()
+            if (p && typeof p.then === 'function') {
+                p.catch(() => {
+                    // 自动播放被拦截时，等待首次用户交互再尝试
+                    const resume = () => {
+                        audio.play().catch(() => {})
+                        window.removeEventListener('pointerdown', resume)
+                        window.removeEventListener('keydown', resume)
+                    }
+                    window.addEventListener('pointerdown', resume, { once: true })
+                    window.addEventListener('keydown', resume, { once: true })
+                })
+            }
+        }
+        tryPlay()
     }, [])
 
     // 二级界面左上角季节标题海浪动画
@@ -593,6 +617,17 @@ export default function App() {
 
     return (
         <div className="page">
+            <audio
+                ref={bgAudioRef}
+                src="/coast-layers/audio/Dan%20Gibson%20-%20Rolling%20Surf%20on%20Pebbled%20Beach.mp3"
+                autoPlay
+                loop
+                preload="auto"
+                playsInline
+            />
+            <div className={`top-icon ${selectedSeason ? 'top-icon--hidden' : ''}`} aria-label="site-icon">
+                <img src="/coast-layers/textures/Icon.png" alt="Site icon" />
+            </div>
             {/* ===== Header ===== */}
             <header className="header">
                 <div className="header-title" ref={titleRef}>
